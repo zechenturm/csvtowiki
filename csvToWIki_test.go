@@ -2,6 +2,11 @@ package csvToWiki
 
 import "testing"
 
+type tst struct {
+	in string
+	ref string
+}
+
 func TestCreate (t *testing.T) {
 	_ = Converter{}
 }
@@ -16,6 +21,20 @@ func TestSmallRow (t *testing.T) {
 	c := Converter{}
 	out := c.Convert([]byte("a, b"))
 	compare(t, out, "| a | b |")
+}
+
+func TestLongerRows (t *testing.T) {
+	data := []tst{
+		tst{"a, b, c", "| a | b | c |"},
+		tst{"1, 2, 3, a, v, 4", "| 1 | 2 | 3 | a | v | 4 |"},
+		tst{"hello, world", "| hello | world |"},
+		tst{"this is a test, 1.23, abcde", "| this is a test | 1.23 | abcde |"},
+	}
+
+	for _, d := range data {
+		c := Converter{}
+		compare(t, c.Convert([]byte(d.in)), d.ref)
+	}
 }
 
 func compare(t *testing.T,  result[]byte, reference string) {
