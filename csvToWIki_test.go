@@ -37,6 +37,13 @@ func TestLongerRows (t *testing.T) {
 	}
 }
 
+func TestMultipleRows (t *testing.T) {
+	c := Converter{}
+	in := []byte("a, b, c\nd, e, f")
+	ref := "| a | b | c |\n| d | e | f |"
+	compare(t, c.Convert(in), ref)
+}
+
 func compare(t *testing.T,  result[]byte, reference string) {
 	if string(result) != reference {
 		t.Fatalf("got wrong output format: wanted \"%s\", got \"%s\"", reference, string(result))

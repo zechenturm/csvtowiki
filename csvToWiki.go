@@ -7,7 +7,8 @@ type Converter struct {
 }
 
 func (c Converter) Convert(input []byte) []byte {
-	return parseRow(input)
+	bts := parseRow(input)
+	return bytes.ReplaceAll(bts, []byte("\n"), []byte(" |\n| "))
 }
 
 func parseRow(input []byte) []byte {
