@@ -7,6 +7,10 @@ type Converter struct {
 }
 
 func (c Converter) Convert(input []byte) []byte {
+	return parseRow(input)
+}
+
+func parseRow(input []byte) []byte {
 	b := bytes.Buffer{}
 	b.Write([]byte("| "))
 	b.Write(bytes.ReplaceAll(input, []byte(","), []byte(" |")))
