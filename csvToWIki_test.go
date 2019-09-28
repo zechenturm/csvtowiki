@@ -38,10 +38,17 @@ func TestLongerRows (t *testing.T) {
 }
 
 func TestMultipleRows (t *testing.T) {
-	c := Converter{}
-	in := []byte("a, b, c\nd, e, f")
-	ref := "| a | b | c |\n| d | e | f |"
-	compare(t, c.Convert(in), ref)
+	data := []tst{
+		tst{"a, b, c\nd, e, f", "| a | b | c |\n| d | e | f |"},
+		tst{"1\n2\n3\na\nv\n4", "| 1 |\n| 2 |\n| 3 |\n| a |\n| v |\n| 4 |"},
+		tst{"hello\nworld", "| hello |\n| world |"},
+		tst{"this is a test\n1.23, abcde", "| this is a test |\n| 1.23 | abcde |"},
+	}
+
+	for _, d := range data {
+		c := Converter{}
+		compare(t, c.Convert([]byte(d.in)), d.ref)
+	}
 }
 
 func compare(t *testing.T,  result[]byte, reference string) {
