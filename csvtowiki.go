@@ -1,4 +1,4 @@
-package csvToWiki
+package csvtowiki
 
 import "bytes"
 
